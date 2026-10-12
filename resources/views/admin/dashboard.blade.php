@@ -536,6 +536,56 @@
                         </div>
                     </div>
 
+<!-- Alert Pesan Sukses -->
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+        <i class="fas fa-check-circle me-1"></i> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+<!-- Card Tabel Data Laboratorium -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Data Laboratorium</h6>
+        <a href="{{ route('labs.create') }}" class="btn btn-primary btn-sm shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50 mr-1"></i> Tambah Lab Baru
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="thead-light">
+                    <tr>
+                        <th width="5%">No</th>
+                        <th>Nama Lab</th>
+                        <th>Kapasitas</th>
+                        <th>Lokasi</th>
+                        <th>Fasilitas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($labs as $index => $lab)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td><strong>{{ $lab->nama_lab }}</strong></td>
+                            <td>{{ $lab->kapasitas }} Orang</td>
+                            <td>{{ $lab->lokasi }}</td>
+                            <td>{{ $lab->fasilitas }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">Belum ada data laboratorium.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
                     <!-- Content Row -->
                     <div class="row">
 
@@ -753,5 +803,6 @@
 <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
 <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 </body>
+
 
 </html>
