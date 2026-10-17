@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lab;
+use App\Models\Borrower;
 use Illuminate\Http\Request;
 
 class LabController extends Controller
 {
-    // 1. Menampilkan Halaman Dashboard / Tabel Data Lab
+    // 1. Menampilkan Halaman Dashboard / Tabel Data Lab & Peminjaman
     public function index()
     {
         $labs = Lab::all();
-        return view('admin.dashboard', compact('labs'));
+
+        // Ambil data peminjaman beserta relasi user dan lab
+        $borrowers = Borrower::with(['user', 'lab'])->latest()->get();
+
+        // Kirim $labs dan $borrowers ke tampilan dashboard
+        return view('admin.dashboard', compact('labs', 'borrowers'));
     }
 
     // 2. Menampilkan Form Tambah Lab
