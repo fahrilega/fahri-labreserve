@@ -4,29 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\Lab;
 use App\Models\Borrower;
+use App\Models\User; // Tambahkan import Model User
 use Illuminate\Http\Request;
 
 class LabController extends Controller
 {
-    // 1. Menampilkan Halaman Dashboard / Tabel Data Lab & Peminjaman
+    // 1. Menampilkan Halaman Dashboard Utama (Semua Ringkasan)
     public function index()
     {
         $labs = Lab::all();
-
-        // Ambil data peminjaman beserta relasi user dan lab
         $borrowers = Borrower::with(['user', 'lab'])->latest()->get();
+        $users = User::all();
 
-        // Kirim $labs dan $borrowers ke tampilan dashboard
-        return view('admin.dashboard', compact('labs', 'borrowers'));
+        return view('admin.dashboard', compact('labs', 'borrowers', 'users'));
     }
 
-    // 2. Menampilkan Form Tambah Lab
+    // 2. Menampilkan Halaman Khusus Data Peminjaman
+    public function peminjaman()
+    {
+        $borrowers = Borrower::with(['user', 'lab'])->latest()->get();
+        return view('admin.peminjaman', compact('borrowers'));
+    }
+
+    // 3. Menampilkan Halaman Khusus Data Lab
+    public function labs()
+    {
+        $labs = Lab::all();
+        return view('admin.labs', compact('labs'));
+    }
+
+    // 4. Menampilkan Halaman Khusus Data User
+    public function users()
+    {
+        $users = User::all();
+        return view('admin.users', compact('users'));
+    }
+
+    // 5. Menampilkan Form Tambah Lab
     public function create()
     {
         return view('labs.create');
     }
 
-    // 3. Memproses Penyimpanan Data Lab Baru
+    // 6. Memproses Penyimpanan Data Lab Baru
     public function store(Request $request)
     {
         $request->validate([
