@@ -30,7 +30,7 @@
 
     <!-- Nav Item - Data Peminjaman -->
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('admin.peminjaman') }}">
+        <a class="nav-link" href="{{ route('admin.peminjaman') }}">
             <i class="fas fa-fw fa-calendar-alt"></i>
             <span>Data Peminjaman</span>
         </a>
@@ -38,7 +38,7 @@
 
     <!-- Nav Item - Data Lab -->
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('admin.labs') }}">
+        <a class="nav-link" href="{{ route('labs.index') }}">
             <i class="fas fa-fw fa-flask"></i>
             <span>Data Lab</span>
         </a>
@@ -46,7 +46,7 @@
 
     <!-- Nav Item - Data User -->
     <li class="nav-item">
-     <a class="nav-link" href="{{ route('admin.users') }}">
+        <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Data User</span>
         </a>

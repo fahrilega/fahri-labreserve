@@ -56,56 +56,7 @@
                     <div class="row">
                         <div class="col-12">
 
-                            <!-- 1. TABEL DATA PEMINJAMAN LAB -->
-                            <div class="card shadow mb-4" id="tabel-peminjaman">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">
-                                        <i class="fas fa-calendar-alt mr-2"></i>Data Peminjaman Lab
-                                    </h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered text-sm" width="100%" cellspacing="0">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th width="5%">No</th>
-                                                    <th>Peminjam</th>
-                                                    <th>Lab</th>
-                                                    <th>Tanggal Pinjam</th>
-                                                    <th>Status</th>
-                                                    <th width="15%">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse($borrowers as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->user->name ?? '-' }}</td>
-                                                        <td>{{ $item->lab->nama_lab ?? '-' }}</td>
-                                                        <td>{{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}</td>
-                                                        <td>
-                                                            @if($item->status == 'pending')
-                                                                <span class="badge badge-warning">Pending</span>
-                                                            @elseif($item->status == 'approved')
-                                                                <span class="badge badge-success">Disetujui</span>
-                                                            @else
-                                                                <span class="badge badge-danger">Ditolak</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-info py-0 px-2">Detail</button>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="6" class="text-center text-muted py-3">Belum ada data peminjaman lab.</td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <!-- 2. TABEL DATA LABORATORIUM -->
                             <div class="card shadow mb-4" id="tabel-lab">
@@ -151,47 +102,7 @@
                                 </div>
                             </div>
 
-                            <!-- 3. TABEL DATA USER -->
-                            <div class="card shadow mb-4" id="tabel-user">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">
-                                        <i class="fas fa-users mr-2"></i>Data Pengguna / User
-                                    </h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered text-sm" width="100%" cellspacing="0">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th width="5%">No</th>
-                                                    <th>Nama User</th>
-                                                    <th>Email</th>
-                                                    <th>Role</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @php
-                                                    $users = \App\Models\User::all();
-                                                @endphp
-                                                @forelse($users as $user)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $user->name }}</td>
-                                                        <td>{{ $user->email }}</td>
-                                                        <td>
-                                                            <span class="badge badge-info">{{ ucfirst($user->role ?? 'User') }}</span>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="4" class="text-center text-muted py-3">Belum ada data user.</td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </div> <!-- /col-12 -->
                     </div> <!-- /row -->
@@ -216,7 +127,7 @@
         <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Page Wrapper -A->
 
     <!-- Bootstrap & Core Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
