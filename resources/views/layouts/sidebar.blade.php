@@ -30,7 +30,7 @@
 
     <!-- Nav Item - Data Peminjaman -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.peminjaman') }}">
+        <a class="nav-link" href="{{ route('peminjaman.index') }}">
             <i class="fas fa-fw fa-calendar-alt"></i>
             <span>Data Peminjaman</span>
         </a>
