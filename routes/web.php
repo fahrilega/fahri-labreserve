@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\AuthController;
 
 // Arahkan halaman utama langsung ke Dashboard Admin
 Route::get('/', [LabController::class, 'index'])->name('admin.dashboard');
@@ -25,3 +26,11 @@ Route::resource('users', UserController::class);
 Route::resource('peminjaman', PeminjamanController::class);
 // Custom Route untuk Ubah Status (ACC/Reject)
 Route::patch('/peminjaman/{id}/status', [PeminjamanController::class, 'updateStatus'])->name('peminjaman.updateStatus');
+
+// Route Halaman Guest (Soal 1)
+Route::get('/', function () { return view('guest.home'); });
+Route::get('/contact', function () { return view('guest.contact'); });
+
+// Route Form & Logika Login (Soal 2)
+Route::get('/auth', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/auth', [AuthController::class, 'login']);
