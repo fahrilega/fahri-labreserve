@@ -9,7 +9,6 @@ class Peminjaman extends Model
 {
     use HasFactory;
 
-    // Nama tabel di database (opsional jika nama tabel 'peminjamans')
     protected $table = 'peminjamans';
 
     protected $fillable = [
@@ -21,15 +20,14 @@ class Peminjaman extends Model
         'status',
     ];
 
-    // Relasi ke Model Lab
+    // Relasi Eloquent
     public function lab()
     {
-        return $this->belongsTo(Lab::class, 'lab_id');
+        return $this->belongsTo(Lab::class);
     }
 
-    // Relasi ke Model User
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

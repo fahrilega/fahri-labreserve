@@ -7,6 +7,12 @@
             <a class="nav-item nav-link font-weight-bold px-3 text-white" href="{{ url('/') }}">
                 <i class="fas fa-home mr-1"></i> Home
             </a>
+            <a class="nav-item nav-link font-weight-bold px-3 text-white" href="{{ route('guest.peminjaman') }}">
+                <i class="fas fa-calendar-check mr-1"></i> Peminjaman (Eloquent)
+            </a>
+            <a class="nav-item nav-link font-weight-bold px-3 text-white" href="{{ route('guest.users') }}">
+                <i class="fas fa-users mr-1"></i> Borrower (Query Builder)
+            </a>
             <a class="nav-item nav-link font-weight-bold px-3 text-white" href="{{ url('/contact') }}">
                 <i class="fas fa-envelope mr-1"></i> Contact Us
             </a>

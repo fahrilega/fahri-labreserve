@@ -34,3 +34,10 @@ Route::get('/contact', function () { return view('guest.contact'); });
 // Route Form & Logika Login (Soal 2)
 Route::get('/auth', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/auth', [AuthController::class, 'login']);
+
+
+Route::get('/guest/users', [UserController::class, 'guestIndex'])->name('guest.users');
+
+// Route Halaman Guest
+Route::get('/guest/peminjaman', [PeminjamanController::class, 'guestIndex'])->name('guest.peminjaman');
+Route::get('/guest/users', [UserController::class, 'guestIndex'])->name('guest.users');
