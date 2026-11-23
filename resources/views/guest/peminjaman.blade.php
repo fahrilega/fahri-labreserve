@@ -7,26 +7,12 @@
 @section('title', 'Form Pengajuan Peminjaman Lab')
 
 @section('content')
-<<<<<<< HEAD
-<div class="container-fluid" style="max-width: 700px;">
-=======
 <div class="container my-4" style="max-width: 700px;">
->>>>>>> master
     <div class="card shadow mb-4">
         <div class="card-header py-3 bg-primary text-white">
             <h6 class="m-0 font-weight-bold"><i class="fas fa-calendar-plus mr-2"></i>Form Pengajuan Peminjaman Lab</h6>
         </div>
         <div class="card-body">
-<<<<<<< HEAD
-            <form action="{{ route('guest.peminjaman.store') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label class="font-weight-bold">Nama Peminjam</label>
-                    <input type="text" class="form-control" value="{{ Auth::user()->name ?? 'Guest' }}" readonly>
-                </div>
-
-                <div class="form-group">
-=======
             <form action="{{ route('peminjaman.store') }}" method="POST">
                 @csrf
 
@@ -41,7 +27,6 @@
 
                 <!-- Pilih Laboratorium -->
                 <div class="form-group mb-3">
->>>>>>> master
                     <label class="font-weight-bold">Pilih Laboratorium</label>
                     <select name="lab_id" class="form-control @error('lab_id') is-invalid @enderror">
                         <option value="">-- Pilih Lab --</option>
@@ -56,9 +41,6 @@
                     @enderror
                 </div>
 
-<<<<<<< HEAD
-                <button type="submit" class="btn btn-primary btn-block shadow-sm">
-=======
                 <!-- Tanggal Pinjam -->
                 <div class="form-group mb-3">
                     <label class="font-weight-bold">Tanggal Pinjam</label>
@@ -79,7 +61,6 @@
 
                 <!-- Tombol Submit -->
                 <button type="submit" class="btn btn-primary btn-block w-100 shadow-sm mt-3">
->>>>>>> master
                     <i class="fas fa-paper-plane mr-1"></i> Kirim Pengajuan
                 </button>
             </form>

@@ -2,28 +2,98 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Menampilkan Form Login
+    // Form Login
     public function showLoginForm()
     {
-        return view('guest.login');
+        return view('auth.login');
     }
 
-    // Menangani Proses Login
+    // Proses Login
     public function login(Request $request)
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        // Logika Sederhana: Jika Username == Password -> Ke Dashboard
-        if ($username === $password && !empty($username)) {
-            return redirect()->route('labs.index')->with('success', 'Selamat Datang Admin!');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            if (Auth::user()->role === 'Admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat Datang Admin!');
+            }
+
+            return redirect()->route('guest.peminjaman')->with('success', 'Login berhasil!');
         }
 
-        // Jika Salah -> Kembali ke halaman Login dengan Alert
-        return redirect('/auth')->with('error', 'Username dan Password salah/tidak cocok!');
+        return back()->with('error', 'Email atau Password salah!')->onlyInput('email');
+    }
+
+    // Form Register
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    // Proses Register (Otomatis Role: User / Mahasiswa)
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:6', 'confirmed'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'User',
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('guest.peminjaman')->with('success', 'Registrasi berhasil!');
+    }
+
+    // Form Lupa Password
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    // Proses Reset Password
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required', 'min:6', 'confirmed'],
+        ], [
+            'email.exists' => 'Email tidak ditemukan dalam sistem.',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('login')->with('success', 'Password berhasil direset! Silakan login.');
+    }
+
+    // Proses Logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'Anda telah logout.');
     }
 }

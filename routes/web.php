@@ -4,46 +4,43 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeminjamanController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\AuthController;
->>>>>>> master
 
-// Arahkan halaman utama langsung ke Dashboard Admin
-Route::get('/', [LabController::class, 'index'])->name('admin.dashboard');
-Route::get('/dashboard', [LabController::class, 'index']);
+// Halaman Awal / Guest
+Route::get('/', function () {
+    return view('guest.home');
+})->name('home');
+Route::get('/contact', function () {
+    return view('guest.contact');
+})->name('contact');
 
-// Halaman Khusus Tiap Data
-Route::get('/peminjaman', [LabController::class, 'peminjaman'])->name('admin.peminjaman');
-Route::get('/labs', [LabController::class, 'labs'])->name('admin.labs');
-Route::get('/users', [LabController::class, 'users'])->name('admin.users');
+// Authentication (Guest Only)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 
-// Route Form Tambah & Simpan Lab
-Route::get('/labs/create', [LabController::class, 'create'])->name('labs.create');
-Route::post('/labs', [LabController::class, 'store'])->name('labs.store');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 
-Route::resource('labs', LabController::class);
-Route::resource('users', UserController::class);
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'resetPassword'])->name('password.update');
+});
 
-// Resource Route untuk Peminjaman
-Route::resource('peminjaman', PeminjamanController::class);
-// Custom Route untuk Ubah Status (ACC/Reject)
-Route::patch('/peminjaman/{id}/status', [PeminjamanController::class, 'updateStatus'])->name('peminjaman.updateStatus');
-<<<<<<< HEAD
-=======
+// Logout
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// Route Halaman Guest (Soal 1)
-Route::get('/', function () { return view('guest.home'); });
-Route::get('/contact', function () { return view('guest.contact'); });
+// Halaman Khusus Role: Admin
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/dashboard', [LabController::class, 'index'])->name('admin.dashboard');
+    Route::resource('labs', LabController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('peminjaman', PeminjamanController::class);
+    Route::patch('/peminjaman/{id}/status', [PeminjamanController::class, 'updateStatus'])->name('peminjaman.updateStatus');
+});
 
-// Route Form & Logika Login (Soal 2)
-Route::get('/auth', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/auth', [AuthController::class, 'login']);
-
-
-Route::get('/guest/users', [UserController::class, 'guestIndex'])->name('guest.users');
-
-// Route Halaman Guest
-Route::get('/guest/peminjaman', [PeminjamanController::class, 'guestIndex'])->name('guest.peminjaman');
-Route::get('/guest/users', [UserController::class, 'guestIndex'])->name('guest.users');
->>>>>>> master
+// Halaman Khusus Role: User (Mahasiswa / Peminjam)
+Route::middleware(['auth', 'role:User'])->group(function () {
+    Route::get('/guest/peminjaman', [PeminjamanController::class, 'guestIndex'])->name('guest.peminjaman');
+    Route::post('/guest/peminjaman', [PeminjamanController::class, 'store'])->name('guest.peminjaman.store');
+    Route::get('/guest/users', [UserController::class, 'guestIndex'])->name('guest.users');
+});
